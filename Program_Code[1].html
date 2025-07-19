@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>AEF Registration Form</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(to right, #f3f2f1, #e3e6f3);
+      margin: 0;
+      padding: 0;
+    }
+    header {
+      background-color: #0b5394;
+      color: white;
+      text-align: center;
+      padding: 15px 0;
+      font-size: 22px;
+      font-weight: bold;
+    }
+    .container {
+      max-width: 500px;
+      margin: 40px auto;
+      padding: 25px;
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.1);
+    }
+    h2 {
+      text-align: center;
+      color: #0b5394;
+    }
+    label {
+      display: block;
+      margin-top: 15px;
+      margin-bottom: 5px;
+      font-weight: 600;
+    }
+    input, select {
+      width: 100%;
+      padding: 10px;
+      font-size: 15px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      margin-bottom: 15px;
+    }
+    button {
+      width: 100%;
+      background-color: #0b5394;
+      color: white;
+      padding: 12px;
+      font-size: 16px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+    button:hover {
+      background-color: #073763;
+    }
+    .success {
+      color: green;
+      text-align: center;
+      margin-top: 10px;
+    }
+    .info {
+      margin-top: 30px;
+    }
+    .info h3 {
+      color: #0b5394;
+      margin-bottom: 8px;
+    }
+    .info div {
+      margin: 6px 0;
+    }
+  </style>
+</head>
+<body>
+
+  <header>AEF INTEGRATED PU COLLEGE</header>
+
+  <div class="container">
+    <h2>Scholarship Registration</h2>
+    <form id="registration-form">
+      <label for="name">Full Name</label>
+      <input type="text" id="name" name="name" required />
+
+      <label for="phone">Mobile Number</label>
+      <input type="tel" id="phone" name="phone" pattern="[0-9]{10}" required />
+
+      <label for="class">Select Class</label>
+      <select id="class" name="class" required>
+        <option value="">--Select--</option>
+        <option>PU1 PCMB</option>
+        <option>PU1 PCMC</option>
+        <option>PU2 PCMB</option>
+        <option>PU2 PCMC</option>
+      </select>
+
+      <label for="slot">Choose Slot</label>
+      <select id="slot" name="slot" required>
+        <option value="">--Select Slot--</option>
+        <option>9 AM - 10 AM</option>
+        <option>11 AM - 12 PM</option>
+        <option>2 PM - 3 PM</option>
+        <option>4 PM - 5 PM</option>
+      </select>
+
+      <button type="submit">Register</button>
+      <div class="success" id="success-msg"></div>
+    </form>
+
+    <div class="info">
+      <h3>Test Details</h3>
+      <div><strong>Mode:</strong> Offline (at Campus)</div>
+      <div><strong>Duration:</strong> 60 minutes</div>
+    </div>
+
+    <div class="info">
+      <h3>Eligibility</h3>
+      <div>✔ Class 10 passed or appearing students</div>
+      <div>✔ Applicable for PCMB / PCMC (PU1 & PU2)</div>
+    </div>
+
+    <p style="text-align:center; font-size: 14px; color: green; margin-top: 20px;">
+      🎓 Scholarships valid for 30 days after registration.
+    </p>
+  </div>
+
+  <script>
+    const form = document.getElementById('registration-form');
+    const successMsg = document.getElementById('success-msg');
+
+    const scriptURL = "https://script.google.com/macros/s/AKfycbxqUChQ5JtJbTDy9eofIrY4oZfa_IDeY0reXs19LmO1uu9Sv_wj8V7OTnprKmgT11VbOw/exec"; // Replace with your actual Apps Script URL
+
+    form.addEventListener('submit', e => {
+      e.preventDefault();
+      const data = {
+        name: form.name.value,
+        phone: form.phone.value,
+        class: form.class.value,
+        slot: form.slot.value
+      };
+
+      fetch(scriptURL, {
+        method: 'POST',
+        body: JSON.stringify(data)
+      })
+      .then(response => {
+        form.reset();
+        successMsg.textContent = "✅ Registered successfully!";
+        setTimeout(() => { successMsg.textContent = ""; }, 4000);
+      })
+      .catch(error => {
+        successMsg.textContent = "❌ Something went wrong. Please try again.";
+      });
+    });
+  </script>
+
+</body>
+</html>
